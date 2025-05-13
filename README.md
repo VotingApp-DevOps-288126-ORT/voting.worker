@@ -1,0 +1,2 @@
+# voting.worker
+Worker Module
