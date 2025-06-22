@@ -87,7 +87,7 @@ jobs:
     if: ${{ github.event_name == 'push' }}
     uses: VotingApp-DevOps-288126-ORT/voting.infra/.github/workflows/build-push-docker-image.yaml@prod
     with:
-      tag: ${{ github.sha }}-dev
+      tag: ${{ github.sha }}-${{ github.ref_name }}
     secrets: inherit
 
   deploy:
