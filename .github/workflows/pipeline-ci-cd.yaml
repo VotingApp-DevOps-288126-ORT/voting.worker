@@ -87,6 +87,18 @@ jobs:
     if: ${{ github.event_name == 'push' }}
     uses: VotingApp-DevOps-288126-ORT/voting.infra/.github/workflows/build-push-docker-image.yaml@prod
     with:
-      tag: ${{ github.sha }}-test
+      tag: ${{ github.sha }}-${{ github.ref_name }}
+    secrets: inherit
+
+  deploy:
+    name: Deploy to Kubernetes
+    needs: build-and-push
+    if: ${{ github.event_name == 'push' }}
+    uses: VotingApp-DevOps-288126-ORT/voting.infra/.github/workflows/deploy-to-k8.yaml@prod
+    with:
+      cluster_name: cluster-eks-${{ github.ref_name }}  
+      manifest_path: ./k8s-specifications/worker-deployment.yaml                        
+      environment: ${{ github.ref_name }}                      
+      commit_sha: ${{ github.sha }} 
     secrets: inherit
 
